@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme {
+  /* Brand Fonts */
+  --font-sans: var(--font-montserrat);
+  --font-horizon: var(--font-horizon);
+  /* Brand Colors */
+  --color-brand-pure-black: #000000;
+  --color-brand-pure-white: #ffffff;
+  --color-brand-dark-olive: #263901;
+  --color-brand-crimson-red: #990000;
+  --color-brand-vivid-green: #08cc00;
+
+  @keyframes scan {
+    from {
+      transform: translateY(-100%);
+    }
+
+    to {
+      transform: translateY(100vh);
+    }
+  }
+
+  --animate-scan: scan 8s linear infinite;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--color-brand-dark-olive);
+  color: var(--foreground);
+  font-family: var(--font-montserrat);
+}
+
+@utility blueprint-grid {
+  /* Creates 1px dots spaced every 32px in a perfect square grid */
+  background-image: radial-gradient(
+    rgba(128, 128, 128, 0.15) 1px,
+    transparent 0
+  );
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+}
+
+input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}

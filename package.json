@@ -1,0 +1,18 @@
+{
+  "name": "cybrella-ecosystem",
+  "version": "1.0.0",
+  "workspaces": [
+    "cybrella-2026",
+    "cybrella-2026-file-server"
+  ],
+  "scripts": {
+    "install-all": "bun install",
+    "dev": "concurrently --kill-others \"bun run --cwd cybrella-2026 dev\" \"bun run --cwd cybrella-2026-file-server dev\"",
+    "dev:server": "bun dev --cwd cybrella-2026-file-server",
+    "dev:app": "bun dev --cwd cybrella-2026"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
