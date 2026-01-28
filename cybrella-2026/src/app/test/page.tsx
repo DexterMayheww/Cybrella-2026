@@ -91,7 +91,7 @@ const PopOutCard = () => {
 
 					{/* LAYER 2: Floating UI Elements (Z-Translated) */}
 					<motion.div
-						style={{ translateZ: "40px" }}
+						style={{ translateZ: "140px" }}
 						className="absolute top-6 left-6 z-30"
 					>
 						<div className="bg-black/40 px-3 py-1 backdrop-blur-md border border-cyan-500/50">
@@ -117,21 +117,25 @@ const PopOutCard = () => {
 						className="absolute inset-0 z-20 pointer-events-none flex items-end justify-center"
 					>
 						<img
-							src="/parallax/7_ling.avif"
+							// src="/parallax/7_ling.avif"
+							src="poster.avif"
 							alt="Character"
 							className="h-[100%] z-20 w-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)]"
 						/>
 					</motion.div>
 
 					{/* LAYER 4: Bottom Text */}
-					<motion.div
-						style={{ translateZ: "60px" }}
-						className="absolute bottom-10 w-full text-center z-30"
-					>
-						<h2 className="text-4xl font-black italic tracking-tighter text-white drop-shadow-lg">
-							FC 2026
-						</h2>
-					</motion.div>
+<motion.div 
+  style={{ 
+    translateZ: "180px", // Higher than the character's 140px
+    transformStyle: "preserve-3d" 
+  }}
+  className="absolute bottom-10 w-full text-center z-50" // High z-index for safety
+>
+  <h2 className="text-4xl font-black italic tracking-tighter text-white drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]">
+    FC 2026
+  </h2>
+</motion.div>
 
 					{/* Sub-frame border for extra depth */}
 					<div className="absolute inset-3 rounded-[18px] border border-white/5 pointer-events-none" />

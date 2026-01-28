@@ -24,23 +24,105 @@ import GlitchHeading from "@/components/GlitchingHeading";
 import { syncNewRegistration } from "../actions";
 
 // --- Types & Constants ---
+// --- Types & Constants ---
 interface Category {
     id: string;
     name: string;
     order: number;
 }
 
-interface EventData {
-    id: string;
-    title: string;
-    category: string;
-    price: number;
-    upiLink: string;
-    qrCodeUrl?: string;
-    order: number;
-}
+import { EventData } from "@/types/events";
+import { QueryDocumentSnapshot, SnapshotOptions, DocumentData } from "firebase/firestore";
 
-const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
+const responsiveStyles = (
+    <style jsx global>{`
+        @media (max-width: 1024px) {
+            /* 1. Reset high top padding for mobile headers */
+            main.relative.z-10 {
+                padding-top: 6rem !important;
+                padding-bottom: 4rem !important;
+            }
+
+            /* 2. Scale down the massive 'Enlistment Portal' text for small screens */
+            .font-horizon.text-6xl {
+                font-size: 2.5rem !important;
+                line-height: 1 !important;
+            }
+
+            /* 3. Adjust the 'Aside' (Payment) section so it doesn't float over content */
+            aside .sticky {
+                position: relative !important;
+                top: 0 !important;
+                margin-top: 2rem;
+            }
+
+            /* 4. Shrink the massive decorative numbers (01, 1.5, 02) to prevent overlap */
+            .opacity-5.text-8xl {
+                font-size: 4rem !important;
+                top: -10px !important;
+                right: 10px !important;
+            }
+
+            /* 5. Optimize the payment method buttons for touch targets */
+            .h-14 {
+                height: auto !important;
+                flex-direction: column;
+            }
+            .h-14 button {
+                width: 100% !important;
+                padding: 1rem 0 !important;
+                flex: none !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            /* 6. Fix horizontal padding on ultra-small devices */
+            main {
+                padding-left: 1.25rem !important;
+                padding-right: 1.25rem !important;
+            }
+
+            /* 7. Stack the academic level buttons for better tap accuracy */
+            .flex.gap-2.p-1.bg-white\/5 {
+                flex-direction: column;
+            }
+
+            /* 8. Ensure the Confirmation Modal fits within small screens */
+            .max-w-md.w-full.bg-zinc-900 {
+                margin: 1rem;
+                padding: 1.5rem !important;
+            }
+        }
+    `}</style>
+);
+
+const eventConverter = {
+    toFirestore(event: EventData): DocumentData {
+        const { id, ...data } = event;
+        return data;
+    },
+    fromFirestore(
+        snapshot: QueryDocumentSnapshot,
+        options: SnapshotOptions
+    ): EventData {
+        const data = snapshot.data(options)!;
+        return {
+            id: snapshot.id,
+            title: data.title,
+            slug: data.slug || "",
+            category: data.category,
+            date: data.date,
+            posterUrl: data.posterUrl,
+            description: data.description || "",
+            rules: data.rules || [],
+            gallery: data.gallery || [],
+            price: data.price,
+            upiLink: data.upiLink,
+            qrCodeUrl: data.qrCodeUrl,
+            order: data.order ?? 0 // Consistent defaulting with Admin
+        };
+    },
+};
 
 const INDIAN_STATES = [
     "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana",
@@ -130,35 +212,45 @@ export default function RegistrationPage() {
 
     // 2. FETCH DATA EFFECT
     useEffect(() => {
+        // Fetch Categories with strict ordering
         const unsubC = onSnapshot(collection(db, "categories"), (s) => {
-            const cats = s.docs.map(d => ({
-                id: d.id,
-                order: 9999,
-                ...d.data()
-            })) as Category[];
+            const cats = s.docs.map(d => {
+                const data = d.data();
+                return {
+                    id: d.id,
+                    name: data.name,
+                    order: typeof data.order === 'number' ? data.order : 999
+                };
+            }) as Category[];
+
+            // Sort by order ASC
             cats.sort((a, b) => a.order - b.order);
             setCategories(cats);
+
             if (cats.length > 0) {
                 setFormData(f => ({ ...f, category: f.category || cats[0].name }));
             }
         });
 
-        const unsubE = onSnapshot(collection(db, "events"), (s) => {
-            const events = s.docs.map(d => ({
-                id: d.id,
-                order: 9999,
-                ...d.data()
-            })) as EventData[];
-            events.sort((a, b) => a.order - b.order);
-            setDbEvents(events);
-            setLoading(false);
-        });
+        // Fetch Events using the Converter to ensure parity with Admin
+        const unsubE = onSnapshot(
+            collection(db, "events").withConverter(eventConverter),
+            (s) => {
+                const events = s.docs.map(d => d.data());
+                // Strictly sort by the converted order field
+                events.sort((a, b) => a.order - b.order);
+                setDbEvents(events);
+                setLoading(false);
+            }
+        );
 
         return () => { unsubC(); unsubE(); };
     }, []);
 
     // 3. COMPUTED VALUES
-    const filteredEvents = dbEvents.filter(e => e.category === formData.category);
+    const filteredEvents = dbEvents.filter(e =>
+        e.category.toUpperCase().trim() === formData.category.toUpperCase().trim()
+    );
     const selectedEvent = dbEvents.find(e => e.id === formData.event);
     const currentPrice = selectedEvent?.price || 0;
 
@@ -279,6 +371,7 @@ export default function RegistrationPage() {
 
     return (
         <div className="bg-brand-dark-olive min-h-screen text-white selection:bg-cyan-500/30">
+            {responsiveStyles}
             <CustomCursor />
             <CursorHighlight />
             <Navbar />
@@ -292,8 +385,8 @@ export default function RegistrationPage() {
                             <span>SYSTEM_GATEWAY // UPLINK_ESTABLISHED</span>
                         </div>
                         <GlitchHeading
-                            text="ENLISTMENT_PORTAL"
-                            className="text-6xl md:text-7xl font-horizon font-black tracking-tighter"
+                            text="ENLISTMENT PORTAL"
+                            className="text-3xl md:text-7xl flex flex-wrap font-horizon font-black tracking-tighter"
                         />
                         <p className="text-white/50 font-mono mt-4 max-w-xl text-sm leading-relaxed">
                             Complete the verification process to secure your sector deployment.
@@ -384,7 +477,7 @@ export default function RegistrationPage() {
                                         </div>
                                         {/* Decorative corner element */}
                                     </div>
-                                        <InputField
+                                    <InputField
                                         label="GEOSPATIAL_COORDINATES (ADDRESS)"
                                         icon={MapPin}
                                         placeholder="Street, City, Pin Code"

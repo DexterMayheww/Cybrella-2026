@@ -130,7 +130,7 @@ export async function forceSyncAllToSheets() {
         if (allData.length === 0) return { success: false, error: "NO_DATA_FOUND" };
 
         // 2. Rebuild the Google Sheet
-        await rebuildSpreadsheet(allData);
+        await rebuildSpreadsheet(allData as any);
 
         return { success: true, count: allData.length };
     } catch (e: any) {

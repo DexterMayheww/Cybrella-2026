@@ -20,7 +20,7 @@ export default async function Home() {
     // If orderBy fails initially due to missing index, remove the orderBy wrapper temporarily
     const qEvents = query(eventsRef, orderBy("createdAt", "desc"));
     const eventSnap = await getDocs(qEvents);
-    
+
     const events = eventSnap.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
@@ -39,14 +39,14 @@ export default async function Home() {
             <CustomCursor />
             <CursorHighlight />
             <Navbar />
-                <HeroSection />
-                {/* <SectionPortal> */}
-					<TechShowcaseSection />
-				{/* </SectionPortal> */}
+            <HeroSection />
+            {/* <SectionPortal> */}
+            <TechShowcaseSection />
+            {/* </SectionPortal> */}
 
             <EventsSection initialEvents={events} />
             <SponsorsSection initialSponsors={sponsors} />
-            
+
             <Footer />
         </div>
     );
