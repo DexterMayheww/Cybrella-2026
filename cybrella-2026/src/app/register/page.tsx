@@ -261,7 +261,13 @@ export default function RegistrationPage() {
         formData.phone.length === 10 &&
         formData.event !== "" &&
         formData.upiRef.length === 12 &&
-        screenshot !== null;
+        screenshot !== null &&
+        // NEW REQUIRED FIELDS
+        formData.age !== "" &&
+        parseInt(formData.age) >= 10 &&
+        parseInt(formData.age) <= 100 &&
+        formData.grade !== "" &&
+        idCardFile !== null;
 
     // 4. HANDLERS
     const showNotify = (message: string, type: "ERROR" | "SUCCESS" = "ERROR") => {
@@ -295,6 +301,13 @@ export default function RegistrationPage() {
         if (formData.upiRef.length !== 12) return showNotify("HASH_ERROR: UPI_REF_MUST_BE_12_DIGITS", "ERROR");
         if (!formData.event) return showNotify("SECTOR_ERROR: NO_EVENT_SELECTED", "ERROR");
         if (!screenshot) return showNotify("TRANSMISSION_ERROR: MISSING_PAYMENT_PROOF", "ERROR");
+
+        // NEW REQUIRED FIELD VALIDATIONS
+        if (!formData.age) return showNotify("CHRONO_ERROR: AGE_VERIFICATION_REQUIRED", "ERROR");
+        const age = parseInt(formData.age);
+        if (age < 10 || age > 100) return showNotify("CHRONO_ERROR: AGE_OUT_OF_VALID_RANGE", "ERROR");
+        if (!formData.grade) return showNotify("LEVEL_ERROR: ACADEMIC_CLASSIFICATION_REQUIRED", "ERROR");
+        if (!idCardFile) return showNotify("AUTHENTICATION_ERROR: IDENTIFICATION_ASSET_REQUIRED", "ERROR");
 
         setShowConfirmModal(true);
     };
@@ -497,12 +510,15 @@ export default function RegistrationPage() {
                                 <div className="grid md:grid-cols-2 gap-6 mb-8">
                                     <div className="space-y-2 group">
                                         <label className="text-[10px] font-mono text-cyan-400 tracking-[0.2em] flex items-center gap-2">
-                                            <Activity className="w-3 h-3" /> CHRONO_AGE (AGE)
+                                            <Activity className="w-3 h-3" /> CHRONO_AGE (AGE) <span className="text-red-500 text-xs">*</span>
                                         </label>
                                         <input
                                             type="number"
                                             placeholder="Years"
                                             value={formData.age}
+                                            aria-required="true"
+                                            min="10"
+                                            max="100"
                                             className="w-full bg-black/40 border border-white/10 p-4 text-white font-mono focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 outline-none transition-all rounded-sm placeholder:text-white/30"
                                             onChange={(e) => setFormData({ ...formData, age: e.target.value })}
                                         />
@@ -510,13 +526,15 @@ export default function RegistrationPage() {
 
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-mono text-cyan-400 tracking-[0.2em] flex items-center gap-2">
-                                            <Terminal className="w-3 h-3" /> ACADEMIC_LEVEL
+                                            <Terminal className="w-3 h-3" /> ACADEMIC_LEVEL <span className="text-red-500 text-xs">*</span>
                                         </label>
-                                        <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-sm">
+                                        <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-sm" role="radiogroup" aria-required="true">
                                             {["SCHOOL", "COLLEGE", "GRADUATE"].map((level) => (
                                                 <button
                                                     key={level}
                                                     type="button"
+                                                    role="radio"
+                                                    aria-checked={formData.grade === level}
                                                     onClick={() => setFormData(prev => ({ ...prev, grade: level }))}
                                                     className={`flex-1 py-3 text-[10px] font-black tracking-widest transition-all ${formData.grade === level ? "bg-cyan-500 text-black" : "text-white/40 hover:text-white"}`}
                                                 >
@@ -605,7 +623,7 @@ export default function RegistrationPage() {
 
                                 <div className="space-y-4">
                                     <label className="text-[10px] font-mono text-cyan-400 tracking-[0.2em] flex items-center gap-2 uppercase">
-                                        <Upload className="w-3 h-3" /> IDENTIFICATION_ASSET (AADHAR CARD)
+                                        <Upload className="w-3 h-3" /> IDENTIFICATION_ASSET (AADHAR CARD) <span className="text-red-500 text-xs">*</span>
                                     </label>
                                     <div className="relative group">
                                         <input
@@ -613,6 +631,7 @@ export default function RegistrationPage() {
                                             id="id-card"
                                             className="hidden"
                                             accept="image/*"
+                                            aria-required="true"
                                             onChange={handleIdCardChange}
                                         />
                                         <label
@@ -639,7 +658,7 @@ export default function RegistrationPage() {
                                                 <div className="text-center">
                                                     <Upload className="w-12 h-12 text-white/10 mx-auto mb-4 group-hover:text-cyan-400 transition-colors" />
                                                     <span className="text-[10px] font-mono text-white/40 block">UPLOAD_IDENTITY_DOCUMENT</span>
-                                                    <span className="text-[9px] font-mono text-white/20 mt-2 block uppercase tracking-tighter">Optional // PNG, JPG preferred</span>
+                                                    <span className="text-[9px] font-mono text-white/20 mt-2 block uppercase tracking-tighter">Required // PNG, JPG preferred</span>
                                                 </div>
                                             )}
                                         </label>

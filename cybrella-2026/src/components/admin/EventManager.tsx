@@ -374,7 +374,15 @@ function EventManagerContent() {
             upiLink: "",
             qrCodeUrl: ""
         });
+
         setEditingId(null);
+        setNewRule("");
+        setNewCatName("");
+
+        const consoleElement = document.querySelector('.Deployment_Console');
+        if (consoleElement) {
+            consoleElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     };
 
     const handleUpload = async (file: File, field: "posterUrl" | "qrCodeUrl" | "gallery") => {

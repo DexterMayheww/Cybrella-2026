@@ -21,6 +21,8 @@ interface RegistrationData {
     name: string;
     email: string;
     phone: string;
+    address?: string;
+    state?: string;
     age?: string;
     grade?: string;
     schoolName?: string;
@@ -37,12 +39,30 @@ interface RegistrationData {
     idCardUrl?: string;
 }
 
-const HEADER_ROW = ['ID', 'NAME', 'EMAIL', 'PHONE', 'EVENT', 'UPI_REF', 'STATUS', 'TIMESTAMP', 'EVIDENCE_LINK', 'AGE', 'GRADE', 'INSTITUTION', 'CLASS_SEM', 'COURSE', 'ID_CARD_LINK'];
+const HEADER_ROW = [
+    'SERIAL NO', 
+    'ID', 
+    'NAME', 
+    'EMAIL', 
+    'PHONE', 
+    'EVENT', 
+    'UPI_REF', 
+    'STATUS', 
+    'ADDRESS', 
+    'STATE', 
+    'TIMESTAMP', 
+    'EVIDENCE_LINK', 
+    'AGE', 
+    'GRADE', 
+    'INSTITUTION', 
+    'CLASS_SEM', 
+    'COURSE', 
+    'ID_CARD_LINK'];
 
 async function syncHeaders(title: string) {
     await sheets.spreadsheets.values.update({
         spreadsheetId: SPREADSHEET_ID,
-        range: `${title}!A1:O1`,
+        range: `${title}!A1:R1`,
         valueInputOption: 'RAW',
         requestBody: { values: [HEADER_ROW] }
     });
@@ -77,7 +97,7 @@ async function findRowIndex(sheetName: string, id: string) {
     return index !== -1 ? index + 1 : null;
 }
 
-function mapRegistrationToRow(data: RegistrationData): string[] {
+function mapRegistrationToRow(data: RegistrationData, serialNumber: number): string[] {
     const evidenceLink = data.paymentScreenshot 
         ? `=HYPERLINK("${data.paymentScreenshot}", "VIEW_ATTACHMENT")` 
         : "NO_ASSET";
@@ -89,6 +109,7 @@ function mapRegistrationToRow(data: RegistrationData): string[] {
         : "NO_ASSET";
 
     return [
+        serialNumber.toString(),
         data.id,
         data.name,
         data.email,
@@ -96,6 +117,8 @@ function mapRegistrationToRow(data: RegistrationData): string[] {
         data.eventTitle,
         data.upiRef,
         data.status,
+        data.address || "N/A",
+        data.state || "N/A",
         formattedDate,
         evidenceLink,
         data.age || "N/A",
@@ -108,15 +131,25 @@ function mapRegistrationToRow(data: RegistrationData): string[] {
 }
 
 export async function appendRegistrationToSheets(data: RegistrationData) {
-    const row = mapRegistrationToRow(data);
     const eventTab = data.eventTitle.replace(/[^a-zA-Z0-9]/g, '_').toUpperCase();
     const targets = Array.from(new Set(['MASTER_LOG', eventTab]));
 
     for (const tab of targets) {
         await ensureSheetExists(tab);
+        
+        // Get current row count to determine serial number
+        const res = await sheets.spreadsheets.values.get({
+            spreadsheetId: SPREADSHEET_ID,
+            range: `${tab}!A:A`,
+        });
+        const rowCount = (res.data.values || []).length;
+        const serialNumber = rowCount; // Header is row 1, so next row gets serial = current count
+        
+        const row = mapRegistrationToRow(data, serialNumber);
+        
         await sheets.spreadsheets.values.append({
             spreadsheetId: SPREADSHEET_ID,
-            range: `${tab}!A:O`,
+            range: `${tab}!A:R`,
             valueInputOption: 'USER_ENTERED',
             requestBody: { values: [row] }
         });
@@ -136,19 +169,29 @@ export async function rebuildSpreadsheet(registrations: RegistrationData[]) {
         });
     }
 
-    // 3. Prepare data
+    // 3. Prepare data with separate serial numbering for master and event tabs
     const masterRows: string[][] = [HEADER_ROW];
     const eventTabs: Record<string, string[][]> = {};
+    const eventCounters: Record<string, number> = {}; // Track serial numbers per event
 
-    registrations.forEach(reg => {
-        const row = mapRegistrationToRow(reg);
-        masterRows.push(row);
+    registrations.forEach((reg, index) => {
+        // Master row uses global index
+        const masterSerial = index + 1;
+        const masterRow = mapRegistrationToRow(reg, masterSerial);
+        masterRows.push(masterRow);
         
         const eventTab = reg.eventTitle.replace(/[^a-zA-Z0-9]/g, '_').toUpperCase();
+        
+        // Initialize event tab if it doesn't exist
         if (!eventTabs[eventTab]) {
             eventTabs[eventTab] = [HEADER_ROW];
+            eventCounters[eventTab] = 0;
         }
-        eventTabs[eventTab].push(row);
+        
+        // Increment counter for this event tab and generate row with event-specific serial
+        eventCounters[eventTab]++;
+        const eventRow = mapRegistrationToRow(reg, eventCounters[eventTab]);
+        eventTabs[eventTab].push(eventRow);
     });
 
     // 4. Update Master
@@ -180,7 +223,7 @@ export async function updateRegistrationInSheets(id: string, status: string, eve
         if (rowIdx) {
             await sheets.spreadsheets.values.update({
                 spreadsheetId: SPREADSHEET_ID,
-                range: `'${tab}'!G${rowIdx}`, // <--- Column G is STATUS in the original mapping
+                range: `'${tab}'!H${rowIdx}`, // Column H is STATUS (S.NO shifted everything by 1)
                 valueInputOption: 'USER_ENTERED',
                 requestBody: { values: [[status]] }
             });
