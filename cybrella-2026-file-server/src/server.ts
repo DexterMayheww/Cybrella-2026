@@ -1,3 +1,5 @@
+// file-server/src/server.ts
+
 import express, { Request, Response } from 'express';
 import multer from 'multer';
 import cors from 'cors';
@@ -29,7 +31,7 @@ if (!fs.existsSync(UPLOADS_ROOT)) {
 // Serve static files
 app.use('/uploads', express.static(UPLOADS_ROOT));
 
-const ALLOWED_FOLDERS = ['posters', 'qr_codes', 'payment_proofs', 'misc', 'videos', 'identification'];
+const ALLOWED_FOLDERS = ['posters', 'qr_codes', 'payment_proofs', 'misc', 'videos', 'identification', 'sponsors'];
 
 const storage = multer.diskStorage({
   destination: (req, _file, cb) => {

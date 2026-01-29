@@ -96,7 +96,7 @@ export default function Navbar() {
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, []);
 
-	const navLinks = ["Home", "Events", "Schedule", "Sponsors", "Admin"];
+	const navLinks = ["Home", "Events", "Schedule", "Sponsors"];
 
 	return (
 		<>
@@ -174,15 +174,17 @@ export default function Navbar() {
 
 						{/* RIGHT: CTA & Mobile */}
 						<div className="flex items-center gap-6">
-							<button className="interactive group relative px-6 py-2 overflow-hidden border border-white/20 hover:border-cyan-400 transition-colors">
-								<div className="absolute inset-0 bg-cyan-950/50 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 skew-x-12" />
-								<span className="relative font-mono text-sm font-bold text-white group-hover:text-cyan-400 tracking-wider">
-									JOIN_SERVER
-								</span>
-								{/* Tech Corners */}
-								<div className="absolute top-0 right-0 h-2 w-2 border-t border-r border-white/40 group-hover:border-cyan-400 transition-colors" />
-								<div className="absolute bottom-0 left-0 h-2 w-2 border-b border-l border-white/40 group-hover:border-cyan-400 transition-colors" />
-							</button>
+							<Link href="/register">
+								<button className="interactive group relative px-6 py-2 overflow-hidden border border-white/20 hover:border-cyan-400 transition-colors">
+									<div className="absolute inset-0 bg-cyan-950/50 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 skew-x-12" />
+									<span className="relative font-mono text-sm font-bold text-white group-hover:text-cyan-400 tracking-wider">
+										JOIN AN EVENT
+									</span>
+									{/* Tech Corners */}
+									<div className="absolute top-0 right-0 h-2 w-2 border-t border-r border-white/40 group-hover:border-cyan-400 transition-colors" />
+									<div className="absolute bottom-0 left-0 h-2 w-2 border-b border-l border-white/40 group-hover:border-cyan-400 transition-colors" />
+								</button>
+							</Link>
 
 							<button
 								onClick={() => setIsOpen(!isOpen)}

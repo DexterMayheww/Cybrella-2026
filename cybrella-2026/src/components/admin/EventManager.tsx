@@ -61,6 +61,7 @@ const eventConverter = {
             rules: data.rules || [],
             gallery: data.gallery || [],
             price: data.price,
+            prizePool: data.prizePool || "",
             upiLink: data.upiLink,
             qrCodeUrl: data.qrCodeUrl,
             order: data.order ?? 0
@@ -233,6 +234,7 @@ function EventManagerContent() {
         rules: [],
         gallery: [],
         price: 0,
+        prizePool: "",
         upiLink: "",
         qrCodeUrl: ""
     });
@@ -371,6 +373,7 @@ function EventManagerContent() {
             rules: [],
             gallery: [],
             price: 0,
+            prizePool: "",
             upiLink: "",
             qrCodeUrl: ""
         });
@@ -627,6 +630,7 @@ function EventManagerContent() {
 
                     {/* Payment Info */}
                     <InputField label="REGISTRATION_FEE (INR)" icon={IndianRupee} type="number" value={form.price || 0} onChange={(v) => setForm({ ...form, price: Number(v) })} />
+                    <InputField label="PRIZE_POOL_ESTIMATE" icon={Layers} value={form.prizePool || ""} onChange={(v) => setForm({ ...form, prizePool: v })} placeholder="Total: ₹50,000 / Trophies..." />
                     <InputField label="UPI_DEEP_LINK" icon={LinkIcon} value={form.upiLink || ""} onChange={(v) => setForm({ ...form, upiLink: v })} placeholder="upi://pay?pa=..." />
 
 
@@ -782,6 +786,9 @@ function EventManagerContent() {
                                                             </span>
                                                             <span className="flex items-center gap-2 text-cyan-400">
                                                                 <IndianRupee className="w-4 h-4" /> {event.price}
+                                                            </span>
+                                                            <span className="flex items-center gap-2 text-green-400">
+                                                                <Layers className="w-4 h-4" /> {event.prizePool || "TBD"}
                                                             </span>
                                                             <span className="flex items-center gap-2 text-purple-400">
                                                                 <List className="w-4 h-4" /> {event.rules?.length || 0} RULES

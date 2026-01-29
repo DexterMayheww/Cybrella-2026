@@ -139,13 +139,13 @@ interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const InputField = ({ label, icon: Icon, ...props }: InputFieldProps) => (
     <div className="space-y-2 group">
-        <label className="text-[10px] font-mono text-cyan-400 tracking-[0.2em] flex items-center gap-2">
+        <label className="text-[10px] font-mono text-brand-vivid-green tracking-[0.2em] flex items-center gap-2">
             <Icon className="w-3 h-3" />
             {label} <span className="text-red-500 text-xs">*</span>
         </label>
         <input
             {...props}
-            className="w-full bg-black/40 border border-white/10 p-4 text-white font-mono focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 outline-none transition-all rounded-sm placeholder:text-white/30"
+            className="w-full bg-brand-pure-white/10 border border-white/10 p-4 text-white font-mono focus:border-brand-vivid-green focus:ring-1 focus:ring-brand-vivid-green/30 outline-none transition-all rounded-sm placeholder:text-white/30"
         />
     </div>
 );
@@ -165,7 +165,7 @@ const RadioCard = ({ id, label, selected, onChange, name }: RadioCardProps) => {
         <label className={`
             relative flex items-center justify-between p-4 border cursor-pointer transition-all duration-300
             ${isChecked
-                ? "bg-cyan-500/10 border-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+                ? "bg-brand-vivid-green/10 border-brand-vivid-green shadow-[0_0_15px_rgba(8,204,0,0.2)]"
                 : "bg-white/5 border-white/10 hover:border-white/30"}
         `}>
             <input
@@ -176,13 +176,13 @@ const RadioCard = ({ id, label, selected, onChange, name }: RadioCardProps) => {
                 className="hidden"
                 onChange={() => onChange(id)}
             />
-            <span className={`text-sm font-bold tracking-tight uppercase ${isChecked ? "text-cyan-400" : "text-white/60"}`}>
+            <span className={`text-sm font-bold tracking-tight uppercase ${isChecked ? "text-brand-vivid-green" : "text-white/60"}`}>
                 {label}
             </span>
             {isChecked && (
                 <motion.div
                     layoutId="radio-check"
-                    className="w-2 h-2 bg-cyan-400 rounded-full"
+                    className="w-2 h-2 bg-brand-vivid-green rounded-full"
                 />
             )}
         </label>
@@ -380,10 +380,10 @@ export default function RegistrationPage() {
         }
     };
 
-    if (loading) return <div className="min-h-screen bg-black flex items-center justify-center font-mono text-cyan-500">UPLINKING_REGISTRATION_SERVER...</div>;
+    if (loading) return <div className="min-h-screen bg-black flex items-center justify-center font-mono text-brand-vivid-green">UPLINKING_REGISTRATION_SERVER...</div>;
 
     return (
-        <div className="bg-brand-dark-olive min-h-screen text-white selection:bg-cyan-500/30">
+        <div className="bg-brand-pure-black min-h-screen text-white selection:bg-brand-vivid-green/30">
             {responsiveStyles}
             <CustomCursor />
             <CursorHighlight />
@@ -392,8 +392,8 @@ export default function RegistrationPage() {
             <main className="relative z-10 pt-32 pb-24 px-6">
                 <div className="max-w-6xl mx-auto">
                     {/* Header Section */}
-                    <header className="mb-16 border-l-4 border-cyan-500 pl-8">
-                        <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs mb-4">
+                    <header className="mb-16 border-l-4 border-brand-vivid-green pl-8">
+                        <div className="flex items-center gap-2 text-brand-vivid-green font-mono text-xs mb-4">
                             <Terminal className="w-4 h-4 animate-pulse" />
                             <span>SYSTEM_GATEWAY // UPLINK_ESTABLISHED</span>
                         </div>
@@ -412,9 +412,9 @@ export default function RegistrationPage() {
                         <div className="lg:col-span-8 space-y-12">
 
                             {/* Personal Data */}
-                            <section className="bg-black/20 border border-white/5 p-8 rounded-sm relative overflow-hidden">
+                            <section className="bg-brand-pure-white/20 border border-white/5 p-8 rounded-sm relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4 opacity-5 font-mono text-8xl">01</div>
-                                <h3 className="text-sm font-mono text-cyan-400 mb-8 flex items-center gap-2">
+                                <h3 className="text-sm font-mono text-brand-vivid-green mb-8 flex items-center gap-2">
                                     <User className="w-4 h-4" /> [SECTION_01] // IDENTITY_VERIFICATION
                                 </h3>
                                 <div className="grid md:grid-cols-2 gap-6">
@@ -434,13 +434,13 @@ export default function RegistrationPage() {
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, email: e.target.value.toLowerCase().trim() })}
                                     />
                                     <div className="space-y-2 group">
-                                        <label className="text-[10px] font-mono text-cyan-400 tracking-[0.2em] flex items-center gap-2">
+                                        <label className="text-[10px] font-mono text-brand-vivid-green tracking-[0.2em] flex items-center gap-2">
                                             <Phone className="w-3 h-3" /> SIGNAL_REACH (PHONE) <span className="text-red-500 text-xs">*</span>
                                         </label>
 
-                                        <div className="flex items-center bg-black/40 border border-white/10 focus-within:border-cyan-400 focus-within:ring-1 focus-within:ring-cyan-400/30 transition-all rounded-sm overflow-hidden">
+                                        <div className="flex items-center bg-brand-pure-white/10 border border-white/10 focus-within:border-brand-vivid-green focus-within:ring-1 focus-within:ring-brand-vivid-green/30 transition-all rounded-sm overflow-hidden">
                                             {/* Fixed Prefix */}
-                                            <div className="px-4 py-4 border-r border-white/10 bg-white/5 text-cyan-400 font-mono text-sm select-none">
+                                            <div className="px-4 py-4 border-r border-white/10 bg-white/5 text-brand-vivid-green font-mono text-sm select-none">
                                                 +91
                                             </div>
 
@@ -468,13 +468,13 @@ export default function RegistrationPage() {
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-mono text-cyan-400 tracking-[0.2em] flex items-center gap-2">
+                                        <label className="text-[10px] font-mono text-brand-vivid-green tracking-[0.2em] flex items-center gap-2">
                                             <Globe className="w-3 h-3" /> SECTOR (STATE) <span className="text-red-500 text-xs">*</span>
                                         </label>
                                         <div className="relative group">
                                             <select
                                                 value={formData.state}
-                                                className="w-full bg-black/40 border border-white/10 p-4 text-white font-mono text-xs focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 outline-none rounded-sm appearance-none cursor-pointer transition-all hover:bg-white/5"
+                                                className="w-full bg-brand-pure-white/10 border border-white/10 p-4 text-white font-mono text-xs focus:border-brand-vivid-green focus:ring-1 focus:ring-brand-vivid-green/30 outline-none rounded-sm appearance-none cursor-pointer transition-all hover:bg-white/5"
                                                 onChange={(e) => setFormData({ ...formData, state: e.target.value })}
                                             >
                                                 {INDIAN_STATES.map(s => (
@@ -484,7 +484,7 @@ export default function RegistrationPage() {
                                                 ))}
                                             </select>
                                             {/* Custom Dropdown Arrow */}
-                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-cyan-400/50 group-hover:text-cyan-400 transition-colors">
+                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-brand-vivid-green/50 group-hover:text-brand-vivid-green transition-colors">
                                                 <ChevronRight className="w-4 h-4 rotate-90" />
                                             </div>
                                         </div>
@@ -497,19 +497,19 @@ export default function RegistrationPage() {
                                         onChange={(e: any) => setFormData({ ...formData, address: e.target.value })}
                                     />
                                 </div>
-                                <div className="absolute bottom-0 right-0 w-6 h-6 border-r border-b border-cyan-500/50" />
+                                <div className="absolute bottom-0 right-0 w-6 h-6 border-r border-b border-brand-vivid-green/50" />
                             </section>
 
                             {/* Academic & Identity Credentials */}
-                            <section className="bg-black/20 border border-white/5 p-8 rounded-sm relative overflow-hidden">
+                            <section className="bg-brand-pure-white/20 border border-white/5 p-8 rounded-sm relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4 opacity-5 font-mono text-8xl">1.5</div>
-                                <h3 className="text-sm font-mono text-cyan-400 mb-8 flex items-center gap-2">
+                                <h3 className="text-sm font-mono text-brand-vivid-green mb-8 flex items-center gap-2">
                                     <ShieldCheck className="w-4 h-4" /> [SECTION_1.5] // ACADEMIC_CREDENTIALS
                                 </h3>
 
                                 <div className="grid md:grid-cols-2 gap-6 mb-8">
                                     <div className="space-y-2 group">
-                                        <label className="text-[10px] font-mono text-cyan-400 tracking-[0.2em] flex items-center gap-2">
+                                        <label className="text-[10px] font-mono text-brand-vivid-green tracking-[0.2em] flex items-center gap-2">
                                             <Activity className="w-3 h-3" /> CHRONO_AGE (AGE) <span className="text-red-500 text-xs">*</span>
                                         </label>
                                         <input
@@ -519,13 +519,13 @@ export default function RegistrationPage() {
                                             aria-required="true"
                                             min="10"
                                             max="100"
-                                            className="w-full bg-black/40 border border-white/10 p-4 text-white font-mono focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 outline-none transition-all rounded-sm placeholder:text-white/30"
+                                            className="w-full bg-brand-pure-white/10 border border-white/10 p-4 text-white font-mono focus:border-brand-vivid-green focus:ring-1 focus:ring-brand-vivid-green/30 outline-none transition-all rounded-sm placeholder:text-white/30"
                                             onChange={(e) => setFormData({ ...formData, age: e.target.value })}
                                         />
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-mono text-cyan-400 tracking-[0.2em] flex items-center gap-2">
+                                        <label className="text-[10px] font-mono text-brand-vivid-green tracking-[0.2em] flex items-center gap-2">
                                             <Terminal className="w-3 h-3" /> ACADEMIC_LEVEL <span className="text-red-500 text-xs">*</span>
                                         </label>
                                         <div className="flex gap-2 p-1 bg-white/5 border border-white/10 rounded-sm" role="radiogroup" aria-required="true">
@@ -536,7 +536,7 @@ export default function RegistrationPage() {
                                                     role="radio"
                                                     aria-checked={formData.grade === level}
                                                     onClick={() => setFormData(prev => ({ ...prev, grade: level }))}
-                                                    className={`flex-1 py-3 text-[10px] font-black tracking-widest transition-all ${formData.grade === level ? "bg-cyan-500 text-black" : "text-white/40 hover:text-white"}`}
+                                                    className={`flex-1 py-3 text-[10px] font-black tracking-widest transition-all ${formData.grade === level ? "bg-brand-vivid-green text-black" : "text-white/40 hover:text-white"}`}
                                                 >
                                                     {level}
                                                 </button>
@@ -622,7 +622,7 @@ export default function RegistrationPage() {
                                 </AnimatePresence>
 
                                 <div className="space-y-4">
-                                    <label className="text-[10px] font-mono text-cyan-400 tracking-[0.2em] flex items-center gap-2 uppercase">
+                                    <label className="text-[10px] font-mono text-brand-vivid-green tracking-[0.2em] flex items-center gap-2 uppercase">
                                         <Upload className="w-3 h-3" /> IDENTIFICATION_ASSET (AADHAR CARD) <span className="text-red-500 text-xs">*</span>
                                     </label>
                                     <div className="relative group">
@@ -636,7 +636,7 @@ export default function RegistrationPage() {
                                         />
                                         <label
                                             htmlFor="id-card"
-                                            className="flex flex-col items-center justify-center border-2 border-dashed border-white/10 rounded-sm p-12 cursor-pointer hover:border-cyan-500/50 transition-all bg-white/5"
+                                            className="flex flex-col items-center justify-center border-2 border-dashed border-white/10 rounded-sm p-12 cursor-pointer hover:border-brand-vivid-green/50 transition-all bg-white/5"
                                         >
                                             {idCardPreview ? (
                                                 <div className="relative w-full max-w-sm aspect-[1.6/1]">
@@ -649,14 +649,14 @@ export default function RegistrationPage() {
                                                         unoptimized={process.env.NODE_ENV === 'development'}
                                                     />
                                                     <div className="absolute inset-0 flex items-center justify-center">
-                                                        <span className="text-[10px] font-mono bg-black/90 px-3 py-1.5 border border-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+                                                        <span className="text-[10px] font-mono bg-black/90 px-3 py-1.5 border border-brand-vivid-green text-white shadow-[0_0_15px_rgba(8,204,0,0.4)]">
                                                             SWAP_IDENTIFICATION
                                                         </span>
                                                     </div>
                                                 </div>
                                             ) : (
                                                 <div className="text-center">
-                                                    <Upload className="w-12 h-12 text-white/10 mx-auto mb-4 group-hover:text-cyan-400 transition-colors" />
+                                                    <Upload className="w-12 h-12 text-white/10 mx-auto mb-4 group-hover:text-brand-vivid-green transition-colors" />
                                                     <span className="text-[10px] font-mono text-white/40 block">UPLOAD_IDENTITY_DOCUMENT</span>
                                                     <span className="text-[9px] font-mono text-white/20 mt-2 block uppercase tracking-tighter">Required // PNG, JPG preferred</span>
                                                 </div>
@@ -667,9 +667,9 @@ export default function RegistrationPage() {
                             </section>
 
                             {/* Sector Classification (Events) */}
-                            <section className="bg-black/20 border border-white/5 p-8 rounded-sm relative overflow-hidden">
+                            <section className="bg-brand-pure-white/20 border border-white/5 p-8 rounded-sm relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-4 opacity-5 font-mono text-8xl">02</div>
-                                <h3 className="text-sm font-mono text-cyan-400 mb-8 flex items-center gap-2">
+                                <h3 className="text-sm font-mono text-brand-vivid-green mb-8 flex items-center gap-2">
                                     <Activity className="w-4 h-4" /> [SECTION_02] // SECTOR_CLASSIFICATION <span className="text-red-500 text-xs">*</span>
                                 </h3>
                                 <div className="flex flex-wrap gap-4 mb-8 p-1 bg-white/5 rounded-sm border border-white/10 w-fit">
@@ -678,7 +678,7 @@ export default function RegistrationPage() {
                                             key={cat.id}
                                             // Use functional update to prevent stale state
                                             onClick={() => setFormData(prev => ({ ...prev, category: cat.name, event: "" }))}
-                                            className={`px-4 py-2 text-[12px] font-black tracking-widest transition-all ${formData.category === cat.name ? "bg-cyan-500 text-black" : "text-white/40 hover:text-white"}`}
+                                            className={`px-4 py-2 text-[12px] font-black tracking-widest transition-all ${formData.category === cat.name ? "bg-brand-vivid-green text-black" : "text-white/40 hover:text-white"}`}
                                         >
                                             {cat.name}
                                         </button>
@@ -705,8 +705,8 @@ export default function RegistrationPage() {
                             <div className="sticky top-32 space-y-6">
 
                                 {/* 1. PAYMENT PROOF SECTION (TRX HASH) */}
-                                <div className="bg-black/20 border border-white/5 p-6 rounded-sm backdrop-blur-md">
-                                    <h3 className="text-[10px] font-mono text-cyan-400 mb-4 flex items-center gap-2 uppercase tracking-widest">
+                                <div className="bg-brand-pure-white/20 border border-white/5 p-6 rounded-sm backdrop-blur-md">
+                                    <h3 className="text-[10px] font-mono text-brand-vivid-green mb-4 flex items-center gap-2 uppercase tracking-widest">
                                         <ShieldCheck className="w-4 h-4" /> Transaction_Hash <span className="text-red-500 text-xs">*</span>
                                     </h3>
 
@@ -720,7 +720,7 @@ export default function RegistrationPage() {
                                         />
                                         <label
                                             htmlFor="screenshot"
-                                            className="flex flex-col items-center justify-center border-2 border-dashed border-white/10 rounded-sm p-8 cursor-pointer hover:border-cyan-500/50 transition-all bg-white/5"
+                                            className="flex flex-col items-center justify-center border-2 border-dashed border-white/10 rounded-sm p-8 cursor-pointer hover:border-brand-vivid-green/50 transition-all bg-white/5"
                                         >
                                             {screenshot ? (
                                                 <div className="relative w-full aspect-video">
@@ -734,7 +734,7 @@ export default function RegistrationPage() {
 
                                                     />
                                                     <div className="absolute inset-0 flex items-center justify-center">
-                                                        <span className="text-[10px] font-mono bg-black/90 px-3 py-1.5 border border-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+                                                        <span className="text-[10px] font-mono bg-black/90 px-3 py-1.5 border border-brand-vivid-green text-white shadow-[0_0_15px_rgba(8,204,0,0.4)]">
                                                             REPLACE_ASSET
                                                         </span>
                                                     </div>
@@ -742,13 +742,13 @@ export default function RegistrationPage() {
                                                         <motion.div
                                                             animate={{ y: ["-100%", "100%"] }}
                                                             transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-                                                            className="w-full h-0.5 bg-cyan-400 shadow-[0_0_10px_cyan] opacity-30"
+                                                            className="w-full h-0.5 bg-brand-vivid-green shadow-[0_0_10px_#08cc00] opacity-30"
                                                         />
                                                     </div>
                                                 </div>
                                             ) : (
                                                 <>
-                                                    <Upload className="w-8 h-8 text-white/20 mb-2 group-hover:text-cyan-400 transition-colors" />
+                                                    <Upload className="w-8 h-8 text-white/20 mb-2 group-hover:text-brand-vivid-green transition-colors" />
                                                     <span className="text-[10px] font-mono text-white/40 group-hover:text-white uppercase tracking-tighter text-center">
                                                         Upload_Payment_Screenshot
                                                     </span>
@@ -756,8 +756,8 @@ export default function RegistrationPage() {
                                             )}
                                         </label>
                                         {/* NEW: UPI Reference Number Input */}
-                                        <div className="bg-black/20 border border-white/5 p-6 rounded-sm backdrop-blur-md mb-4">
-                                            <label className="text-[10px] font-mono text-cyan-400 tracking-[0.2em] flex items-center gap-2 mb-3 uppercase">
+                                        <div className="bg-transparent border border-white/5 p-6 rounded-sm backdrop-blur-md mb-4">
+                                            <label className="text-[10px] font-mono text-brand-vivid-green tracking-[0.2em] flex items-center gap-2 mb-3 uppercase">
                                                 <ShieldCheck className="w-3 h-3" /> UPI_REFERENCE_NUMBER <span className="text-red-500 text-xs">*</span>
                                             </label>
                                             <input
@@ -765,7 +765,7 @@ export default function RegistrationPage() {
                                                 inputMode="numeric"
                                                 placeholder="12-Digit Ref No. (e.g. 4023...)"
                                                 value={formData.upiRef}
-                                                className="w-full bg-black/40 border border-white/10 p-3 text-white font-mono focus:border-cyan-400 outline-none transition-all rounded-sm text-xs placeholder:text-white/20"
+                                                className="w-full bg-brand-pure-white/10 border border-white/10 p-3 text-brand-pure-black font-mono focus:border-brand-vivid-green outline-none transition-all rounded-sm text-xs placeholder:text-brand-pure-white/40"
                                                 // Only allow numbers, max 12 digits
                                                 onChange={(e) => {
                                                     const val = e.target.value.replace(/\D/g, '');
@@ -783,7 +783,7 @@ export default function RegistrationPage() {
                                 </div>
 
                                 {/* 2. TOTAL FEES & KINETIC PAYMENT SELECTION */}
-                                <div className="border-t-4 border-cyan-500 bg-black/40 rounded-b-sm overflow-hidden">
+                                <div className="border-t-4 border-brand-vivid-green bg-brand-pure-white/20 rounded-b-sm overflow-hidden">
                                     <div className="p-6 space-y-6">
                                         {/* Header: Amount & Status */}
                                         <div className="flex justify-between items-end">
@@ -806,7 +806,7 @@ export default function RegistrationPage() {
                                                 animate={{ flex: paymentMethod === "LINK" ? 0.7 : 0.3 }}
                                                 onClick={() => setPaymentMethod("LINK")}
                                                 className={`relative overflow-hidden border font-mono text-[10px] uppercase flex flex-col items-center justify-center gap-1 transition-all ${paymentMethod === "LINK"
-                                                    ? "border-cyan-500 bg-cyan-500/10 text-cyan-400"
+                                                    ? "border-brand-vivid-green bg-brand-vivid-green/10 text-brand-vivid-green"
                                                     : "border-white/10 text-white/40 hover:bg-white/5"
                                                     }`}
                                             >
@@ -818,7 +818,7 @@ export default function RegistrationPage() {
                                                 animate={{ flex: paymentMethod === "QR" ? 0.7 : 0.3 }}
                                                 onClick={() => setPaymentMethod("QR")}
                                                 className={`relative overflow-hidden border font-mono text-[10px] uppercase flex flex-col items-center justify-center gap-1 transition-all ${paymentMethod === "QR"
-                                                    ? "border-cyan-500 bg-cyan-500/10 text-cyan-400"
+                                                    ? "border-brand-vivid-green bg-brand-vivid-green/10 text-brand-vivid-green"
                                                     : "border-white/10 text-white/40 hover:bg-white/5"
                                                     }`}
                                             >
@@ -843,7 +843,7 @@ export default function RegistrationPage() {
                                                             href={selectedEvent.upiLink}
                                                             target="_blank"
                                                             rel="noreferrer"
-                                                            className="w-full py-4 bg-white/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-cyan-500 hover:text-black transition-all group"
+                                                            className="w-full py-4 bg-white/10 border border-brand-vivid-green/30 text-brand-vivid-green text-xs font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-brand-vivid-green hover:text-black transition-all group"
                                                         >
                                                             PAY_VIA_UPI_LINK <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                                         </a>
@@ -879,7 +879,7 @@ export default function RegistrationPage() {
                                             onClick={handleSubmit}
                                             disabled={isSubmitting} // Disable while submitting
                                             className={`w-full py-5 font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3 transition-all duration-500 ${isFormValid && !isSubmitting
-                                                ? "bg-cyan-500 text-black shadow-[0_0_40px_rgba(6,182,212,0.6)] border-cyan-400 cursor-pointer hover:scale-[1.02] active:scale-95"
+                                                ? "bg-brand-vivid-green text-black shadow-[0_0_40px_rgba(8,204,0,0.6)] border-brand-vivid-green cursor-pointer hover:scale-[1.02] active:scale-95"
                                                 : "bg-white/5 text-white/20 border border-white/10 cursor-not-allowed opacity-50"
                                                 }`}
                                         >
@@ -913,9 +913,9 @@ export default function RegistrationPage() {
                         exit={{ opacity: 0, scale: 0.9 }}
                         className="fixed bottom-10 right-10 z-100 min-w-[320px]"
                     >
-                        <div className={`relative p-1 rounded-sm overflow-hidden border ${notification.type === "SUCCESS" ? "border-cyan-500 bg-cyan-500/10" : "border-red-500 bg-red-500/10"}`}>
+                        <div className={`relative p-1 rounded-sm overflow-hidden border ${notification.type === "SUCCESS" ? "border-brand-vivid-green bg-brand-vivid-green/10" : "border-red-500 bg-red-500/10"}`}>
                             <div className="bg-black p-4 flex items-start gap-4">
-                                <div className={notification.type === "SUCCESS" ? "text-cyan-400" : "text-red-500"}>
+                                <div className={notification.type === "SUCCESS" ? "text-brand-vivid-green" : "text-red-500"}>
                                     {notification.type === "SUCCESS" ? <CheckCircle2 className="w-6 h-6" /> : <AlertTriangle className="w-6 h-6" />}
                                 </div>
                                 <div className="flex-1">
@@ -962,13 +962,13 @@ export default function RegistrationPage() {
 
                                 <div className="space-y-4 mb-8">
                                     <p className="text-sm text-white/60 font-mono leading-relaxed">
-                                        You are about to transmit personal data to the <span className="text-cyan-400">[{selectedEvent?.title}]</span> sector.
+                                        You are about to transmit personal data to the <span className="text-brand-vivid-green">[{selectedEvent?.title}]</span> sector.
                                         This action is permanent and cannot be retracted once written to the blockchain.
                                     </p>
 
-                                    <div className="bg-black/50 p-4 border-l-2 border-cyan-500 font-mono">
+                                    <div className="bg-black/50 p-4 border-l-2 border-brand-vivid-green font-mono">
                                         <div className="text-[10px] text-white/40 uppercase">Target_Sector</div>
-                                        <div className="text-sm text-cyan-400 font-bold">{selectedEvent?.title}</div>
+                                        <div className="text-sm text-brand-vivid-green font-bold">{selectedEvent?.title}</div>
                                         <div className="text-[10px] text-white/40 uppercase mt-2">Transmitting_As</div>
                                         <div className="text-sm text-white">{formData.name}</div>
                                     </div>

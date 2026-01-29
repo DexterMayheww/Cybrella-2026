@@ -14,7 +14,8 @@ import {
     ChevronLeft,
     AlertCircle,
     CheckCircle2,
-    QrCode
+    QrCode,
+    Trophy
 } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
@@ -120,7 +121,7 @@ export default function EventPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
 
                     {/* VISUAL_DATA_COLUMN */}
-                    <div className="lg:col-span-5 space-y-8">
+                    <div className="lg:col-span-4 space-y-8">
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
@@ -156,6 +157,40 @@ export default function EventPage() {
                                 </motion.div>
                             ))}
                         </div>
+                        {/* NEW_REGISTRATION_CTA_MODULE */}
+                        <motion.div
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.6 }}
+                            className="relative group p-[1px] bg-gradient-to-b from-cyan-500/50 to-transparent rounded-lg"
+                        >
+                            <div className="bg-black/40 backdrop-blur-md p-6 rounded-lg border border-white/5 space-y-4">
+                                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                                    <div>
+                                        <p className="font-mono text-[10px] text-cyan-400 tracking-[0.2em] uppercase">Status</p>
+                                        <p className="font-mono text-xs text-white">RECRUITMENT_OPEN</p>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="font-mono text-[10px] text-gray-500 tracking-[0.2em] uppercase">Capacity</p>
+                                        <p className="font-mono text-xs text-white">LIMITED_SLOTS</p>
+                                    </div>
+                                </div>
+                                
+                                <Link
+                                    href="/register"
+                                    className="block w-full group/btn relative overflow-hidden bg-cyan-500 py-4 text-center"
+                                >
+                                    <div className="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300" />
+                                    <span className="relative z-10 font-black font-mono text-xs tracking-[0.3em] text-black uppercase transition-colors duration-300">
+                                        Initiate_Registration
+                                    </span>
+                                </Link>
+                                
+                                <p className="text-[9px] font-mono text-gray-600 text-center leading-tight uppercase">
+                                    By clicking you agree to the terminal_user_agreement and mission_protocols.
+                                </p>
+                            </div>
+                        </motion.div>
                     </div>
 
                     {/* INFORMATION_DATA_COLUMN */}
@@ -205,6 +240,11 @@ export default function EventPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <InfoCard icon={Calendar} label="DATE_LOG" value={event.date} delay={0.3} />
                             <InfoCard icon={IndianRupee} label="CREDITS_REQUIRED" value={event.price ? `₹${event.price}` : "FREE"} delay={0.4} />
+                            {event.prizePool && (
+                                <div className="md:col-span-2">
+                                    <InfoCard icon={Trophy} label="EXPECTED_REWARDS" value={event.prizePool} delay={0.45} />
+                                </div>
+                            )}
                         </div>
 
                         {/* PROTOCOLS_MODULE (RULES) */}
@@ -229,33 +269,45 @@ export default function EventPage() {
                             </motion.div>
                         )}
 
-                        {/* REGISTRATION_MODULE */}
-                        <motion.div
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.6 }}
-                            className="bg-gradient-to-br from-cyan-900/20 to-black border border-cyan-500/20 p-8 rounded-xl relative overflow-hidden group"
-                        >
-                            <div className="absolute top-0 right-0 p-32 bg-cyan-500/10 blur-[60px] rounded-full group-hover:bg-cyan-500/20 transition-all" />
+                        {/* PRIZE_POOL_MEGA_DISPLAY */}
+                        {event.prizePool && (
+                            <motion.div
+                                initial={{ scale: 0.95, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ delay: 0.55 }}
+                                className="relative group p-1 rounded-2xl bg-gradient-to-r from-purple-500 via-fuchsia-500 to-cyan-500 overflow-hidden"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-cyan-500 opacity-20 group-hover:opacity-40 transition-opacity blur-xl" />
+                                <div className="relative bg-black rounded-xl p-8 md:p-12 overflow-hidden">
+                                    {/* Abstract background graphics */}
+                                    <div className="absolute top-0 right-0 -mr-12 -mt-12 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl" />
+                                    <div className="absolute bottom-0 left-0 -ml-12 -mb-12 w-48 h-48 bg-cyan-500/10 rounded-full blur-2xl" />
 
-                            <div className="flex flex-col md:flex-row gap-8 items-center relative z-10">
-                                <div className="space-y-4 flex-1 text-center md:text-left">
-                                    <h3 className="font-horizon text-2xl uppercase tracking-widest text-white">
-                                        Secure_Your_Spot
-                                    </h3>
-                                    <p className="font-mono text-xs text-cyan-300 max-w-sm">
-                                        LIMITED SLOTS AVAILABLE. REGISTER NOW TO PARTICIPATE.
-                                    </p>
+                                    <div className="relative z-10 flex flex-col items-center text-center space-y-4">
+                                        <motion.div
+                                            animate={{ y: [0, -10, 0] }}
+                                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                            className="p-4 bg-white/5 rounded-full border border-white/10 mb-2"
+                                        >
+                                            <Trophy className="w-8 h-8 text-yellow-500 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]" />
+                                        </motion.div>
 
-                                    <Link
-                                        href="/register"
-                                        className="inline-block bg-cyan-600 hover:bg-cyan-500 text-black font-black uppercase tracking-widest text-xs px-8 py-4 rounded transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
-                                    >
-                                        Initiate_Registration
-                                    </Link>
+                                        <h3 className="font-mono text-xs text-fuchsia-400 tracking-[0.4em] uppercase">Prize_Pool_Authorized</h3>
+
+                                        <div className="space-y-2">
+                                            <h2 className="text-4xl md:text-6xl font-black font-horizon uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-fuchsia-200 to-cyan-200 drop-shadow-sm">
+                                                {event.prizePool}
+                                            </h2>
+                                            <div className="h-1 w-32 bg-gradient-to-r from-purple-500 via-white to-cyan-500 mx-auto rounded-full" />
+                                        </div>
+
+                                        <p className="font-mono text-[10px] text-gray-500 uppercase tracking-widest mt-4">
+                                            {"// Rewards_Calculation: Based_on_participation_thresholds //"}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </motion.div>
+                            </motion.div>
+                        )}
 
                     </div>
                 </div>
